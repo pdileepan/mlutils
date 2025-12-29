@@ -282,7 +282,8 @@ def dw_cumulative_lift(y, y_hat, pos_label=None):
     decile_cases.sort_index(ascending=False, inplace=True)
     decile_cum_cases = decile_cases.cumsum()
 
-    naive_events_rate = decile_events.sum()/len(y)
+#    naive_events_rate = decile_events.sum()/len(y)
+    naive_events_rate = y_numeric.mean()
     decile_cum_events_naive = decile_cum_cases * naive_events_rate
     decile_cum_lift = decile_cum_events/decile_cum_events_naive
     
