@@ -274,7 +274,7 @@ def dw_cumulative_lift(y, y_hat, pos_label=None):
 
 
     deciles = pd.qcut(y_hat,10, labels=np.arange(10,0,-1))
-    decile_events = y.groupby(deciles, observed=True).sum() # Sum events in each decile
+    decile_events = y_numeric.groupby(deciles, observed=True).sum() # Sum events in each decile
     decile_events.sort_index(ascending=False, inplace=True)
     decile_cum_events = decile_events.cumsum()
 
@@ -327,9 +327,6 @@ def cum_costbenefit_gain(y, y_hat, fpcost, tpbenefit, pos_label=None):
     if pos_label not in y.unique():
         raise ValueError("Given pos_label not a valid actual.")
 
-# Convert y into numeric
-    y_numeric = pd.Series([1 if x == pos_label else 0 for x in y])
-    
 # Validate y_hat is floating point
     if not np.issubdtype(y_hat.dtype, np.floating):
         raise ValueError("y_hat must be floating point data type.")    
