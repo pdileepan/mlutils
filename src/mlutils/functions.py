@@ -355,9 +355,9 @@ def cum_costbenefit_gain(y, y_hat, fpcost, tpbenefit, pos_label=None):
 
 
     fig, ax = plt.subplots()
+    ax.plot(np.arange(len(y)+1), cost_benefit_best_cumsum, color='lightgrey')  # Best possible performance
     ax.plot(np.arange(len(y)+1), cost_benefit_cumsum)  # Line for cumulative cost/benefit; add 1 to length for the zero added as the first value 
     ax.plot([0, len(y)], [0, cost_benefit_cumsum.iloc[len(y)]], color='navy', lw=2, linestyle='--')   # Diagonal line for Naive predictions
-    ax.plot(np.arange(len(y)+1), cost_benefit_best_cumsum, color='lightgrey')  # Best possible performance
     
     ax.set_xlabel('Cases')
     ax.set_ylabel('Cost/Benefit')
