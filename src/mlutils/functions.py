@@ -225,7 +225,7 @@ def dw_cumulative_gain(y, y_hat, pos_label=None):
 
 
     deciles = pd.qcut(y_hat,10, labels=np.arange(10,0,-1))
-    decile_events = y.groupby(deciles, observed=True).sum() # Sum events in each decile
+    decile_events = y_numeric.groupby(deciles, observed=True).sum() # Sum events in each decile
     decile_events.sort_index(ascending=False, inplace=True)
     decile_cum_events = decile_events.cumsum()
     decile_cum_gains = decile_cum_events/decile_events.sum()*100
