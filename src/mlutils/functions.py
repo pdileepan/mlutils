@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-def cm_calcMetrics(x, labels=None, pos_label=None):
+def rlike_metrics(x, labels=None, pos_label=None):
     """ Calculate performance measures and print similar to R
 
     Input:
@@ -139,7 +139,7 @@ def cm_calcMetrics(x, labels=None, pos_label=None):
                     "Balanced accuracy":balanced_accuracy}
     return metricsDict
 
-def dw_gain(y, y_hat, pos_label=None):
+def dw_gain_class(y, y_hat, pos_label=None):
     """ Create a decile-wise gains chart
 
     Input:
@@ -188,7 +188,7 @@ def dw_gain(y, y_hat, pos_label=None):
 
     
  
-def dw_cumulative_gain(y, y_hat, pos_label=None):
+def dw_cumulative_gain_class(y, y_hat, pos_label=None):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -241,7 +241,7 @@ def dw_cumulative_gain(y, y_hat, pos_label=None):
     plt.show()
     
 
-def dw_cumulative_lift(y, y_hat, pos_label=None):
+def dw_cumulative_lift_class(y, y_hat, pos_label=None):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -364,3 +364,135 @@ def cum_costbenefit_gain(y, y_hat, fpcost, tpbenefit, pos_label=None):
     ax.set_title('Cumulative Cost/Benefit Gain Chart')
     
     plt.show()
+    
+    
+def dw_gain_reg(y, y_hat):
+    """ Create a decile-wise gains chart
+
+    Input:
+        y: Array of actual outcome 
+        y_hat: Array of predicted y
+        
+    Output:
+        Decile-wise gains chart
+    """
+# Validate size of y and y_hat
+    if len(y) != len(y_hat):
+        raise ValueError("Length of array of actual outcome msut be the same as the length of probability array.")
+
+    deciles = pd.qcut(y_hat, 10, labels=np.arange(10,0,-1))
+    decile_sum = y.groupby(deciles, observed=True).sum() 
+    y_sum = y.sum()
+    
+    decile_gains = decile_sum/y_sum * 100
+    
+    fig, ax = plt.subplots()
+    ax.bar(decile_gains.index, decile_gains)
+    ax.set_ylabel('Gains %')
+    ax.set_xlabel('Decile')
+    ax.set_title(r'Decile-wise gains chart')
+    ax.set_xticks(range(1,11))
+    
+    ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
+    plt.show()
+    
+def dw_cumgain_reg(y, y_hat):
+    """ Create a decile-wise cumulative gains chart
+
+    Input:
+        y: Array of actual outcome 
+        y_hat: Array of predicted y
+        
+    Output:
+        Decile-wise cumulative gains chart
+    """
+# Validate size of y and y_hat
+    if len(y) != len(y_hat):
+        raise ValueError("Length of array of actual outcome msut be the same as the length of probability array.")
+
+   
+    deciles = pd.qcut(y_hat, 10, labels=np.arange(10,0,-1))
+    decile_sum = y.groupby(deciles, observed=True).sum() 
+    decile_sum.sort_index(ascending=False, inplace=True)
+    decile_cumsum = decile_sum.cumsum() 
+    
+    y_sum = y.sum()
+    
+    decile_cumgains = decile_cumsum/y_sum * 100
+
+  
+    fig, ax = plt.subplots()
+    ax.bar(decile_cumgains.index, decile_cumgains)
+    ax.set_ylabel('Gains %')
+    ax.set_xlabel('Decile')
+    ax.set_title(r'Decile-wise cumulative gains chart')
+    ax.set_xticks(range(1,11))
+    
+    ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
+    plt.show()
+    
+
+def dw_cumulative_lift_reg(y, y_hat):
+    """ Create a decile-wise cumulative lift chart
+
+    Input:
+        y: Array of actual outcome 
+        y_hat: Array of predicted y
+        
+    Output:
+        Decile-wise cumulative lift chart
+    """
+
+# Validate size of y and y_hat
+    if len(y) != len(y_hat):
+        raise ValueError("Length of array of actual outcome msut be the same as the length of probability array.")
+
+    deciles = pd.qcut(y_hat, 10, labels=np.arange(10,0,-1))
+    decile_sum = y.groupby(deciles, observed=True).sum() 
+    decile_count = y.groupby(deciles, observed=True).count() 
+
+    decile_sum.sort_index(ascending=False, inplace=True)
+    decile_count.sort_index(ascending=False, inplace=True)
+    
+    decile_cumsum = decile_sum.cumsum() 
+    decile_cumcount = decile_count.cumsum() 
+
+    decile_cummean = decile_cumsum/decile_cumcount
+    
+    y_mean = y.mean()
+    
+    decile_cum_lift = decile_cummean/y_mean
+
+    fig, ax = plt.subplots()
+    ax.bar(decile_cum_lift.index, decile_cum_lift)
+    ax.set_ylabel('Cunulative lift')
+    ax.set_xlabel('Decile')
+    ax.set_title(r'Decile-wise cunulative lift')
+    ax.set_xticks(range(1,11))
+    ax.bar_label(ax.containers[0], fmt='{:.2f}', label_type='edge', padding=1, size=8)
+    plt.show()
+
+
+def prediction_accuracy_summary(y, pred_y, model='Model'):
+    # y = True y
+    # pred_y = Predicted y
+    # model =  Prediction model label
+
+    import sklearn.metrics as skm
+    
+# Create index
+    index_names = ['Mean Error', 'Root Mean Square Error', 
+                   'Mean Absolute Error', 'Mean Percentage Error', 
+                   'Mean Absolute Percentage Error']
+# Assemble to accuracy measures
+    accuracy_vals = [(y-pred_y).mean(),
+                     skm.root_mean_squared_error(y, pred_y),
+                     skm.mean_absolute_error(y, pred_y), 
+                     ((y-pred_y)/y).mean()*100, 
+                     skm.mean_absolute_percentage_error(y, pred_y)*100]
+   
+# Set up DataFrame
+    accuracy_df = pd.DataFrame(accuracy_vals, index=index_names, columns=[model])
+    
+# Return the completed DataFrame
+    return accuracy_df
