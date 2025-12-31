@@ -139,7 +139,7 @@ def rlike_metrics(x, labels=None, pos_label=None):
                     "Balanced accuracy":balanced_accuracy}
     return metricsDict
 
-def dw_gains_class(y, y_hat, pos_label=None):
+def dw_gains_class(y, y_hat, pos_label=None, title='Decile-wise gains chart'):
     """ Create a decile-wise gains chart
 
     Input:
@@ -180,7 +180,7 @@ def dw_gains_class(y, y_hat, pos_label=None):
     ax.bar(decile_gains.index, decile_gains)
     ax.set_ylabel('Gains %')
     ax.set_xlabel('Decile')
-    ax.set_title(r'Decile-wise gains chart')
+    ax.set_title(title)
     ax.set_xticks(range(1,11))
     
     ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
@@ -188,7 +188,7 @@ def dw_gains_class(y, y_hat, pos_label=None):
 
     
  
-def dw_cumulative_gains_class(y, y_hat, pos_label=None):
+def dw_cumulative_gains_class(y, y_hat, pos_label=None, title='Decile-wise cumulative gains chart'):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -234,14 +234,14 @@ def dw_cumulative_gains_class(y, y_hat, pos_label=None):
     ax.bar(decile_cum_gains.index, decile_cum_gains)
     ax.set_ylabel('Cunulative gains %')
     ax.set_xlabel('Decile')
-    ax.set_title(r'Decile-wise cunulative gains chart')
+    ax.set_title(title)
     ax.set_xticks(range(1,11))
     
     ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
     plt.show()
     
 
-def dw_cumulative_lift_class(y, y_hat, pos_label=None):
+def dw_cumulative_lift_class(y, y_hat, pos_label=None, title='Decile-wise cumulative lift chart'):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -254,6 +254,10 @@ def dw_cumulative_lift_class(y, y_hat, pos_label=None):
         
     """
     
+# Validate size of y and y_hat
+    if len(y) != len(y_hat):
+        raise ValueError("Length of array of actual outcome msut be the same as the length of probability array.")
+
 # Validate two outcomes in y
     if y.nunique() != 2:
         raise ValueError("Number of unique actual outcome must be 2.")
@@ -291,13 +295,13 @@ def dw_cumulative_lift_class(y, y_hat, pos_label=None):
     ax.bar(decile_cum_lift.index, decile_cum_lift)
     ax.set_ylabel('Cunulative lift')
     ax.set_xlabel('Decile')
-    ax.set_title(r'Decile-wise cunulative lift')
+    ax.set_title(title)
     ax.set_xticks(range(1,11))
     ax.bar_label(ax.containers[0], fmt='{:.2f}', label_type='edge', padding=1, size=8)
     plt.show()
     
 
-def cum_costbenefit_gains(y, y_hat, fpcost, tpbenefit, pos_label=None):
+def cum_costbenefit_gains(y, y_hat, fpcost, tpbenefit, pos_label=None, title='Cumulative Cost/Benefit Gains Chart'):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -361,12 +365,12 @@ def cum_costbenefit_gains(y, y_hat, fpcost, tpbenefit, pos_label=None):
     
     ax.set_xlabel('Cases')
     ax.set_ylabel('Cost/Benefit')
-    ax.set_title('Cumulative Cost/Benefit Gain Chart')
+    ax.set_title(title)
     
     plt.show()
     
     
-def dw_gains_reg(y, y_hat):
+def dw_gains_reg(y, y_hat, title='Decile-wise gains chart'):
     """ Create a decile-wise gains chart
 
     Input:
@@ -390,13 +394,13 @@ def dw_gains_reg(y, y_hat):
     ax.bar(decile_gains.index, decile_gains)
     ax.set_ylabel('Gains %')
     ax.set_xlabel('Decile')
-    ax.set_title(r'Decile-wise gains chart')
+    ax.set_title(title)
     ax.set_xticks(range(1,11))
     
     ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
     plt.show()
     
-def dw_cumulative_gains_reg(y, y_hat):
+def dw_cumulative_gains_reg(y, y_hat, title='Decile-wise gains chart'):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -425,14 +429,14 @@ def dw_cumulative_gains_reg(y, y_hat):
     ax.bar(decile_cumgains.index, decile_cumgains)
     ax.set_ylabel('Gains %')
     ax.set_xlabel('Decile')
-    ax.set_title(r'Decile-wise cumulative gains chart')
+    ax.set_title(title)
     ax.set_xticks(range(1,11))
     
     ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
     plt.show()
     
 
-def dw_cumulative_lift_reg(y, y_hat):
+def dw_cumulative_lift_reg(y, y_hat, title='Decile-wise cunulative lift chart'):
     """ Create a decile-wise cumulative lift chart
 
     Input:
@@ -467,7 +471,7 @@ def dw_cumulative_lift_reg(y, y_hat):
     ax.bar(decile_cum_lift.index, decile_cum_lift)
     ax.set_ylabel('Cunulative lift')
     ax.set_xlabel('Decile')
-    ax.set_title(r'Decile-wise cunulative lift')
+    ax.set_title(title)
     ax.set_xticks(range(1,11))
     ax.bar_label(ax.containers[0], fmt='{:.2f}', label_type='edge', padding=1, size=8)
     plt.show()
