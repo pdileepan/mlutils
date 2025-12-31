@@ -139,7 +139,7 @@ def rlike_metrics(x, labels=None, pos_label=None):
                     "Balanced accuracy":balanced_accuracy}
     return metricsDict
 
-def dw_gain_class(y, y_hat, pos_label=None):
+def dw_gains_class(y, y_hat, pos_label=None):
     """ Create a decile-wise gains chart
 
     Input:
@@ -188,7 +188,7 @@ def dw_gain_class(y, y_hat, pos_label=None):
 
     
  
-def dw_cumulative_gain_class(y, y_hat, pos_label=None):
+def dw_cumulative_gains_class(y, y_hat, pos_label=None):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -297,7 +297,7 @@ def dw_cumulative_lift_class(y, y_hat, pos_label=None):
     plt.show()
     
 
-def cum_costbenefit_gain(y, y_hat, fpcost, tpbenefit, pos_label=None):
+def cum_costbenefit_gains(y, y_hat, fpcost, tpbenefit, pos_label=None):
     """ Create a decile-wise cumulative gains chart
 
     Input:
@@ -366,7 +366,7 @@ def cum_costbenefit_gain(y, y_hat, fpcost, tpbenefit, pos_label=None):
     plt.show()
     
     
-def dw_gain_reg(y, y_hat):
+def dw_gains_reg(y, y_hat):
     """ Create a decile-wise gains chart
 
     Input:
@@ -396,7 +396,7 @@ def dw_gain_reg(y, y_hat):
     ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
     plt.show()
     
-def dw_cumgain_reg(y, y_hat):
+def dw_cumulative_gains_reg(y, y_hat):
     """ Create a decile-wise cumulative gains chart
 
     Input:
