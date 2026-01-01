@@ -271,8 +271,8 @@ def rlike_metrics(x, labels=None, pos_label=None):
                     "Balanced accuracy":balanced_accuracy}
     return metricsDict
 
-def prf1plot(y, y_hat, labels=None, pos_label=None, title='Precision-Recall-F1 Plot for Mower data'):
-    """ Create a Precision-Recall-F1 Scofe plot
+def prf1plot(y, y_hat, labels=None, pos_label=None, title='Precision-Recall-F1 Plot'):
+    """ Create a Precision-Recall-F1 Score plot
 
     Input:
         y: Pandas Series of actual outcome -- must have only two unique values
@@ -280,7 +280,7 @@ def prf1plot(y, y_hat, labels=None, pos_label=None, title='Precision-Recall-F1 P
         pos_label = Optional, default = First encountered value in y
         
     Output:
-        Decile-wise gains chart
+        Precision-Recall-F1 Score plot
         Returns DataFrame of the Precision, Recall, and F1-Score 
     """
 # Validate size of y and y_hat
