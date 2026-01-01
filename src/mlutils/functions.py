@@ -1,14 +1,14 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import sklearn.metrics as skm
 
 def prediction_accuracy_summary(y, y_hat, model='Model'):
     # y = True y (Series or Numpy array)
     # y_hat = Predicted y (Series or Numpy array)
     # model =  Label for the model used for y_hat
 
-    import sklearn.metrics as skm
-    
+
 # Create index
     index_names = ['Mean Error', 'Root Mean Square Error', 
                    'Mean Absolute Error', 'Mean Percentage Error', 
