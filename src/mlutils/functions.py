@@ -519,7 +519,7 @@ def cum_costbenefit_gains(y, y_hat, fpcost, tpbenefit, pos_label=None, title='Cu
     # Combine y and y_hat into a DataFrame
     # Sort values by y_hat
     # Extract y from the sorted DataFrame
-    y_sorted = pd.DataFrame({'y':y, 'y_hat':y_hat}).sort_values(by='y_hat')['y']
+    y_sorted = pd.DataFrame({'y':y, 'y_hat':y_hat}).sort_values(by='y_hat', ascending=False)['y']
     
     cost_benefit = y_sorted.transform(lambda x: tpbenefit if x==pos_label else -fpcost)
     cost_benefit_cumsum = pd.concat([pd.Series([0]), cost_benefit.cumsum()], ignore_index=True)  #Use pd.concat to add 0 as the first value
