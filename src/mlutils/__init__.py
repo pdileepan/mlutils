@@ -1,4 +1,4 @@
 # src/mlutils/__init__.py
-from .functions import (rlike_metrics, dw_cumulative_gains_class, dw_gains_class, dw_cumulative_lift_class, cum_costbenefit_gains, dw_gains_reg, dw_cumulative_gains_reg,  dw_cumulative_lift_reg,prediction_accuracy_summary)
+from .functions import (prediction_accuracy_summary, dw_gains_reg, dw_cumulative_gains_reg,  dw_cumulative_lift_reg, rlike_metrics, prf1plot, dw_gains_class, dw_cumulative_gains_class, dw_cumulative_lift_class, cum_costbenefit_gains)
 
-__all__ = ["rlike_metrics", "dw_cumulative_gains_class", "dw_gains_class", "dw_cumulative_lift_class", "cum_costbenefit_gains", "dw_gains_reg", "dw_cumulative_gains_reg", "dw_cumulative_lift_reg", "prediction_accuracy_summary"]
+__all__ = ["prediction_accuracy_summary", "dw_gains_reg", "dw_cumulative_gains_reg", "dw_cumulative_lift_reg" , "rlike_metrics", "prf1plot", "dw_gains_class", "dw_cumulative_gains_class", "dw_cumulative_lift_class", "cum_costbenefit_gains"]
