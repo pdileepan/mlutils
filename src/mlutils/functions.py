@@ -315,6 +315,76 @@ def prf1plot(y, y_hat, labels=None, pos_label=None, title='Precision-Recall-F1 P
     plt.show()
     return precision_recall_df
 
+def misclassification_cost_plot(y, yhat, q1, q2, pos_label=None, title='Misclassification Cost Plot'):
+
+    """ Create a plot of misclassification cost for a range of cutoff probability
+
+    Input:
+    y = Pandas Series of actual class  -- must have only two unique values
+    yhat = Array of probability
+    q1 = Cost of false positive
+    q2 = Cost of false negative
+    pos_label = String - Label for positive class (Optional)
+    title = title for the plot
+        
+    Output:
+        Misclassification cost plot
+    """
+    
+# Validate size of y and y_hat
+    if len(y) != len(yhat):
+        raise ValueError("Length of array of actual outcome msut be the same as the length of probability array.")
+
+# Validate two outcomes in y
+    if y.nunique() != 2:
+        raise ValueError("Number of unique actual outcome must be 2.")
+
+# Validate positive label
+    ordered_classes = np.sort(y.unique())
+    if pos_label is None:
+        pos_label = ordered_classes[0]  # If None pos_label = first unique value
+
+    if pos_label not in ordered_classes:
+        raise ValueError("Given pos_label not a valid actual.")
+
+# Set up label for negative class
+    if pos_label == ordered_classes[0]:
+        neg_label = ordered_classes[1]
+    else:
+        neg_label = ordered_classes[0]
+    
+# Validate y_hat is floating point
+    if not np.issubdtype(yhat.dtype, np.floating):
+        raise ValueError("yhat must be floating point data type.")
+
+    miss_cost=pd.Series()   # Initialize Series for misclassification cost
+    for cutoff_probability in np.arange(0, 1.01, .05):
+        yp = [pos_label if p >= cutoff_probability else neg_label for p in yhat]
+
+        # Generate confusion matrix
+        x = skm.confusion_matrix(y, yp)
+
+        # Extract matrix elements
+        a11, a12, a21, a22 = x[0, 0], x[0, 1], x[1, 0], x[1, 1]
+
+        # Assign tp, tn, fp, fn based on which label is positive
+        if pos_label == ordered_classes[0]:  # first row = positive
+            tp, fp, fn, tn = a11, a21, a12, a22
+        else:                       # second row = positive
+            tp, fp, fn, tn = a22, a12, a21, a11
+
+        # Add cost to the Pandas Series
+        miss_cost.loc[cutoff_probability] = (fp*q1+fn*q2)
+
+# Plot the Pandas Series of misclassification costs
+    fig, ax = plt.subplots()
+    ax.plot(miss_cost.index, miss_cost)
+    
+    ax.set_xlabel('Cutoff (threshold probability)')
+    ax.set_ylabel('Opportunity cost')
+    
+    ax.set_title(title)
+    plt.show()
 
 
 def dw_gains_class(y, y_hat, pos_label=None, title='Decile-wise gains chart'):
