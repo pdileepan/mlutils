@@ -300,7 +300,7 @@ def prf1plot(y, y_hat, labels=None, pos_label=None, title='Precision-Recall-F1 P
 
 # Convert y into numeric
 #    y_numeric = pd.Series([1 if x == pos_label else 0 for x in y])
-    precision_recall_df = pd.DataFrame(skm.precision_recall_curve(y, owner_df['Probability'], pos_label=pos_label)).T
+    precision_recall_df = pd.DataFrame(skm.precision_recall_curve(y, y_hat, pos_label=pos_label)).T
     precision_recall_df.columns = ['Precision', 'Recall', 'Threshold']
     precision_recall_df.set_index('Threshold', inplace=True)
     precision_recall_df['F1 Score'] = (2*precision_recall_df['Precision']*precision_recall_df['Recall'])/(precision_recall_df['Precision']+precision_recall_df['Recall'])
