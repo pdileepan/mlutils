@@ -94,7 +94,7 @@ def dw_cumulative_gains_reg(y, y_hat, title='Decile-wise gains chart'):
     plt.show()
     
 
-def dw_cumulative_lift_reg(y, y_hat, title='Decile-wise cunulative lift chart'):
+def dw_cumulative_lift_reg(y, y_hat, title='Decile-wise cumulative lift chart'):
     """ Create a decile-wise cumulative lift chart
 
     Input:
@@ -127,7 +127,7 @@ def dw_cumulative_lift_reg(y, y_hat, title='Decile-wise cunulative lift chart'):
 
     fig, ax = plt.subplots()
     ax.bar(decile_cum_lift.index, decile_cum_lift)
-    ax.set_ylabel('Cunulative lift')
+    ax.set_ylabel('Cumulative lift')
     ax.set_xlabel('Decile')
     ax.set_title(title)
     ax.set_xticks(range(1,11))
@@ -223,8 +223,8 @@ def rlike_metrics(x, labels=None, pos_label=None):
     print('Confusion Matrix')
     print(f"{'Prediction':>28}")
     print(f"{"Actual":15}{labels[0]:>8} {labels[1]:>10}")
-    print(f"{labels[0]:15}{tp:>8}{fp:>10}")
-    print(f"{labels[1]:15}{fn:>8}{tn:>10}\n\n")
+    print(f"{labels[0]:15}{a11:>8}{a12:>10}")
+    print(f"{labels[1]:15}{a21:>8}{a22:>10}\n\n")
 
     
     print('Classification metrics')
@@ -481,7 +481,7 @@ def dw_cumulative_gains_class(y, y_hat, pos_label=None, title='Decile-wise cumul
     
     fig, ax = plt.subplots()
     ax.bar(decile_cum_gains.index, decile_cum_gains)
-    ax.set_ylabel('Cunulative gains %')
+    ax.set_ylabel('Cumulative gains %')
     ax.set_xlabel('Decile')
     ax.set_title(title)
     ax.set_xticks(range(1,11))
@@ -542,7 +542,7 @@ def dw_cumulative_lift_class(y, y_hat, pos_label=None, title='Decile-wise cumula
     
     fig, ax = plt.subplots()
     ax.bar(decile_cum_lift.index, decile_cum_lift)
-    ax.set_ylabel('Cunulative lift')
+    ax.set_ylabel('Cumulative lift')
     ax.set_xlabel('Decile')
     ax.set_title(title)
     ax.set_xticks(range(1,11))
