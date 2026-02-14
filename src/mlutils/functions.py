@@ -422,6 +422,9 @@ def dw_gains_class(y, y_hat, pos_label=None, title='Decile-wise gains chart'):
         raise ValueError("y_hat must be floating point data type.")
     
     deciles = pd.qcut(y_hat, 10, labels=np.arange(10,0,-1))
+    deciles = pd.Series(deciles)
+    deciles = deciles.reset_index(drop=True)
+
     decile_events = y_numeric.groupby(deciles, observed=True).sum() # Sum events in each decile
     decile_gains = decile_events/decile_events.sum()*100
     
@@ -472,9 +475,11 @@ def dw_cumulative_gains_class(y, y_hat, pos_label=None, title='Decile-wise cumul
     if not np.issubdtype(y_hat.dtype, np.floating):
         raise ValueError("y_hat must be floating point data type.")
 
-
     deciles = pd.qcut(y_hat,10, labels=np.arange(10,0,-1))
+    deciles = pd.Series(deciles)
+    deciles = deciles.reset_index(drop=True)
     decile_events = y_numeric.groupby(deciles, observed=True).sum() # Sum events in each decile
+    
     decile_events.sort_index(ascending=False, inplace=True)
     decile_cum_events = decile_events.cumsum()
     decile_cum_gains = decile_cum_events/decile_events.sum()*100
@@ -525,18 +530,19 @@ def dw_cumulative_lift_class(y, y_hat, pos_label=None, title='Decile-wise cumula
     if not np.issubdtype(y_hat.dtype, np.floating):
         raise ValueError("y_hat must be floating point data type.")
 
-
     deciles = pd.qcut(y_hat,10, labels=np.arange(10,0,-1))
+    deciles = pd.Series(deciles)
+    deciles = deciles.reset_index(drop=True)
+
     decile_events = y_numeric.groupby(deciles, observed=True).sum() # Sum events in each decile
     decile_events.sort_index(ascending=False, inplace=True)
     decile_cum_events = decile_events.cumsum()
 
-    decile_cases = y.groupby(deciles, observed=True).count() # number of cases
+    decile_cases = y_numeric.groupby(deciles, observed=True).count() # number of cases
     decile_cases.sort_index(ascending=False, inplace=True)
     decile_cum_cases = decile_cases.cumsum()
 
-#    naive_events_rate = decile_events.sum()/len(y)
-    naive_events_rate = y_numeric.mean()
+    naive_events_rate = decile_events.sum()/len(y)
     decile_cum_events_naive = decile_cum_cases * naive_events_rate
     decile_cum_lift = decile_cum_events/decile_cum_events_naive
     
