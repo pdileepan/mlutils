@@ -55,7 +55,7 @@ def dw_gains_reg(y, y_hat, title='Decile-wise gains chart'):
     ax.set_title(title)
     ax.set_xticks(range(1,11))
     
-    ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
+    ax.bar_label(ax.containers[0], fmt='%4.1f%%', label_type='edge', padding=1, size=8)
     plt.show()
     
 def dw_cumulative_gains_reg(y, y_hat, title='Decile-wise gains chart'):
@@ -90,7 +90,7 @@ def dw_cumulative_gains_reg(y, y_hat, title='Decile-wise gains chart'):
     ax.set_title(title)
     ax.set_xticks(range(1,11))
     
-    ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
+    ax.bar_label(ax.containers[0], fmt='%4.1f%%', label_type='edge', padding=1, size=8)
     plt.show()
     
 
@@ -131,7 +131,7 @@ def dw_cumulative_lift_reg(y, y_hat, title='Decile-wise cumulative lift chart'):
     ax.set_xlabel('Decile')
     ax.set_title(title)
     ax.set_xticks(range(1,11))
-    ax.bar_label(ax.containers[0], fmt='{:.2f}', label_type='edge', padding=1, size=8)
+    ax.bar_label(ax.containers[0], fmt='{:.1f}', label_type='edge', padding=1, size=8)
     plt.show()
 
 
@@ -435,7 +435,7 @@ def dw_gains_class(y, y_hat, pos_label=None, title='Decile-wise gains chart'):
     ax.set_title(title)
     ax.set_xticks(range(1,11))
     
-    ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
+    ax.bar_label(ax.containers[0], fmt='%4.1f%%', label_type='edge', padding=1, size=8)
     plt.show()
 
     
@@ -491,7 +491,7 @@ def dw_cumulative_gains_class(y, y_hat, pos_label=None, title='Decile-wise cumul
     ax.set_title(title)
     ax.set_xticks(range(1,11))
     
-    ax.bar_label(ax.containers[0], fmt='%4.0f%%', label_type='edge', padding=1, size=8)
+    ax.bar_label(ax.containers[0], fmt='%4.1f%%', label_type='edge', padding=1, size=8)
     plt.show()
     
 
@@ -552,7 +552,7 @@ def dw_cumulative_lift_class(y, y_hat, pos_label=None, title='Decile-wise cumula
     ax.set_xlabel('Decile')
     ax.set_title(title)
     ax.set_xticks(range(1,11))
-    ax.bar_label(ax.containers[0], fmt='{:.2f}', label_type='edge', padding=1, size=8)
+    ax.bar_label(ax.containers[0], fmt='{:.1f}', label_type='edge', padding=1, size=8)
     plt.show()
     
 
